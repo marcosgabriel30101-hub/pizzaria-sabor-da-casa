@@ -228,7 +228,20 @@ app.get('/:file', (req,res,next) => publicFiles.has(req.params.file)
   ? res.sendFile(path.join(__dirname,req.params.file)) : next());
 app.use('/imagens', express.static(path.join(__dirname,'imagens'), {dotfiles:'deny'}));
 app.get('/admin', (_req,res)=>res.redirect(301, '/admin/'));
-app.use('/admin', express.static(path.join(__dirname,'admin'), { index:'index.html', dotfiles:'deny' }));
+
+app.get('/admin', (req, res) => {
+    res.redirect(302, '/admin/');
+});
+
+app.get('/admin/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'admin', 'index.html'));
+});
+
+app.use('/admin', express.static(
+    path.join(__dirname, 'admin'),
+    { index: false, redirect: false, dotfiles: 'deny' }
+));
+
 app.use((err,_req,res,_next)=>{ console.error(err); res.status(500).json({error:'Erro interno do servidor.'}); });
 app.listen(PORT,()=> {
   console.log(`Pizzaria Sabor de Casa disponível em http://localhost:${PORT}`);
