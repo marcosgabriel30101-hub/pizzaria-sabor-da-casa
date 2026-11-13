@@ -226,7 +226,7 @@ const publicFiles = new Set(['index.html','catalogo30.html','catalogo35.html','m
 app.get('/', (_req,res) => res.sendFile(path.join(__dirname,'index.html')));
 app.get('/:file', (req,res,next) => publicFiles.has(req.params.file)
   ? res.sendFile(path.join(__dirname,req.params.file)) : next());
-app.use('/imagens', express.static(path.join(__dirname,'imagens'), {dotfiles:'deny'}));
+
 app.get('/admin', (_req,res)=>res.redirect(301, '/admin/'));
 
 app.get('/admin', (req, res) => {
